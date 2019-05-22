@@ -10,6 +10,9 @@ app.use(express.json())
 
 app.locals.notes = [{name: 'test'}]
 
+const sendMessage = (response, code, message) => {
+  return response.status(code).json(message)
+ }
 
 app.get('/api/notes', (request, response) => {
   const notes = app.locals.notes
