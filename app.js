@@ -45,8 +45,17 @@ const note = app.locals.notes.forEach(note => {
 
 //wait to pass this when current card is generated
 app.post('/api/notes/:id', (request, response) => {
-  const { list, title } = request.body
+  const { list , title } = request.body
   const id = ids.generate()
+
+  const newlist = {
+    title,
+    id,
+    list
+  }
+  app.locals.notes = [...app.locals.notes, newlist]
+
+  return response.status(201).json('Note Created')
 })
 
 app.put('/api/notes', (req, res) => {
