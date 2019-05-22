@@ -1,14 +1,31 @@
 
 const express = require('express')
 const app = express()
-// let ids = require('short-id')
+let ids = require('short-id')
 app.set('port', process.env.PORT || 3000)
 
 // ids.generate();  // "aeaf15"
 
 app.use(express.json())
 
-app.locals.notes = [{name: 'test'}]
+app.locals.notes = [
+  { id: ids.generate(),
+    title: 'Project To-do',
+    list: [
+      { id: ids.generate(),
+        text: 'Delete Card',
+      },
+      { id: ids.generate(),
+        text: 'Delete List items',
+      },
+      { id: ids.generate(),
+        text: 'Setup Router',
+      },
+      { id: ids.generate(),
+        text: 'Setup Redux',
+      },
+    ]
+  }]
 
 app.get('/api/notes', (request, response) => {
   const notes = app.locals.notes
