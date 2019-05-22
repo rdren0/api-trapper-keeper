@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon -r esm server.js",
     "lint": "eslint src/",
     "test": "jest --watch"
   },
@@ -12,6 +12,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "esm": "^3.2.25",
     "express": "^4.17.0",
     "shortid": "^2.2.14"
   },
