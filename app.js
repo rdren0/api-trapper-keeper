@@ -4,10 +4,26 @@ const app = express();
 import cors from "cors";
 app.use(cors());
 const ids = require("shortid");
+app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [];
+app.locals.notes = [
+  {
+    id: ids.generate(),
+    title: "TODO",
+    tasks: [
+      {
+        id: ids.generate(),
+        message: "Project"
+      },
+      {
+        id: ids.generate(),
+        message: "Mock Interview"
+      }
+    ]
+  }
+];
 
 app.get("/api/v1/notes", (request, response) => {
   const notes = app.locals.notes;
@@ -55,6 +71,7 @@ app.put("/api/v1/notes/:id", (request, response) => {
 });
 
 app.delete("/api/v1/notes/:id", (request, response) => {
+
   const { notes } = app.locals
   const { id } = request.params
 
@@ -64,6 +81,7 @@ app.delete("/api/v1/notes/:id", (request, response) => {
 
   notes.splice(noteIndex, 1);
   return response.sendStatus(200).json("Note was successfully deleted");
+
 });
 
 export default app;
