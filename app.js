@@ -44,10 +44,7 @@ app.put("/api/notes/:id", (request, response) => {
   const { title, list } = request.body;
   let { id } = request.params;
   const { notes } = app.locals
-  
-console.log(request.params)
-console.log(title, list)
- const foundNote =  notes.find(note => note.id == id)
+  const foundNote =  notes.find(note => note.id == id)
 
  if(!foundNote) return response.status(404).json({Error: `No note found with ${id} `})
   if(!title || !list ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
