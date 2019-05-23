@@ -9,24 +9,24 @@ const ids = require('shortid')
 
 app.use(express.json())
 
-app.locals.notes = [
-  { id: ids.generate(),
-    title: 'mockTitle',
-    list: [
-      { id: ids.generate(),
-        text: 'Delete Card',
-      },
-      { id: ids.generate(),
-        text: 'Delete List items',
-      },
-      { id: ids.generate(),
-        text: 'Setup Router',
-      },
-      { id: ids.generate(),
-        text: 'Setup Redux',
-      },
-    ]
-  }]
+app.locals.notes = []
+  // { id: ids.generate(),
+  //   title: 'mockTitle',
+  //   list: [
+  //     { id: ids.generate(),
+  //       text: 'Delete Card',
+  //     },
+  //     { id: ids.generate(),
+  //       text: 'Delete List items',
+  //     },
+  //     { id: ids.generate(),
+  //       text: 'Setup Router',
+  //     },
+  //     { id: ids.generate(),
+  //       text: 'Setup Redux',
+  //     },
+  //   ]
+  // }]
 
 
 
@@ -47,19 +47,16 @@ const note = app.locals.notes.forEach(note => {
 app.post('/api/notes/', (request, response) => {
   const { notes } = app.locals
   const { title, list } = request.body
- 
   
-  if(!title || list.length === 0  ){
-    return response.status(422).send('Expected format: { title: <String>, list: <Stringarray> }')
-  } else {
-        const newlist = {
+  if( !request.body.title || !request.body.list ) return response.status(422).send('Expected format: { title: <String>, list: <Stringarray> }')
+        
+  const newlist = {
           id: ids.generate(),
           ...request.body
         }
 
     notes.push(newlist) 
     return response.status(201).json(newlist)
-  }
 })
 
 app.put('/api/notes', (req, res) => {
