@@ -8,22 +8,20 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [
-  {
-    id: ids.generate(),
-    title: "TODO",
-    tasks: [
-      {
-        id: ids.generate(),
-        message: "Project"
-      },
-      {
-        id: ids.generate(),
-        message: "Mock Interview"
-      }
-    ]
-  }
-];
+app.locals.notes = [{
+  id: ids.generate(),
+  title: "TODO",
+  listItems: [
+    {
+      id: ids.generate(),
+      message: "Project"
+    },
+    {
+      id: ids.generate(),
+      message: "Mock Interview"
+    }
+  ]
+}];
 
 app.get("/api/notes", (request, response) => {
   const notes = app.locals.notes;
