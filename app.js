@@ -22,6 +22,48 @@ app.locals.notes = [
         message: "Mock Interview"
       }
     ]
+  },
+  {
+    id: ids.generate(),
+    title: "Chores",
+    tasks: [
+      {
+        id: ids.generate(),
+        message: "Project"
+      },
+      {
+        id: ids.generate(),
+        message: "Mock Interview"
+      }
+    ]
+  },
+  {
+    id: ids.generate(),
+    title: "Turing",
+    tasks: [
+      {
+        id: ids.generate(),
+        message: "Project"
+      },
+      {
+        id: ids.generate(),
+        message: "Mock Interview"
+      }
+    ]
+  },
+  {
+    id: ids.generate(),
+    title: "Work",
+    tasks: [
+      {
+        id: ids.generate(),
+        message: "Project"
+      },
+      {
+        id: ids.generate(),
+        message: "Mock Interview"
+      }
+    ]
   }
 ];
 
