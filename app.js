@@ -4,10 +4,26 @@ const app = express();
 import cors from "cors";
 app.use(cors());
 const ids = require("shortid");
+app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [];
+app.locals.notes = [
+  {
+    id: ids.generate(),
+    title: "TODO",
+    tasks: [
+      {
+        id: ids.generate(),
+        message: "Project"
+      },
+      {
+        id: ids.generate(),
+        message: "Mock Interview"
+      }
+    ]
+  }
+];
 
 app.get("/api/notes", (request, response) => {
   const notes = app.locals.notes;
@@ -63,7 +79,6 @@ app.delete("/api/v1/notes/:id", (request, response) => {
   const noteIndex = app.locals.notes.findIndex(
     note => note.id == request.params.id
   );
-  console.log('noteINde', noteIndex)
   if (noteIndex === -1) return response.status(404).json("Note not found");
   app.locals.notes.splice(noteIndex, 1);
   return sendMessage(response, 200, "Note was successfully deleted");
