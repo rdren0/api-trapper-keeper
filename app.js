@@ -5,28 +5,10 @@ import cors from 'cors';
 app.use(cors());
 const ids = require('shortid')
 
-// ids.generate();  // "aeaf15"
-
 app.use(express.json())
 
 app.locals.notes = []
-  // { id: ids.generate(),
-  //   title: 'mockTitle',
-  //   list: [
-  //     { id: ids.generate(),
-  //       text: 'Delete Card',
-  //     },
-  //     { id: ids.generate(),
-  //       text: 'Delete List items',
-  //     },
-  //     { id: ids.generate(),
-  //       text: 'Setup Router',
-  //     },
-  //     { id: ids.generate(),
-  //       text: 'Setup Redux',
-  //     },
-  //   ]
-  // }]
+
 
 
 
