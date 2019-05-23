@@ -30,7 +30,7 @@ app.post('/api/notes/', (request, response) => {
   const { notes } = app.locals
   const { title, list } = request.body
   
-  if( !request.body.title || !request.body.list ) return response.status(422).send('Expected format: { title: <String>, list: <Stringarray> }')
+  if( !title || !list ) return response.status(422).send('Expected format: { title: <String>, list: <Stringarray> }')
         
   const newlist = {
           id: ids.generate(),
