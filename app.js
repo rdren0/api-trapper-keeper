@@ -18,51 +18,43 @@ app.get("/api/notes/:id", (request, response) => {
   const { id } = request.params
   const notes = app.locals.notes;
 
-  const member = notes.find(member => member.id == id)
-  if(!member) return response.status(404).json({Error: `No note found with ${id}`})
-  return response.status(200).json(member)
+  const note = notes.find(note => note.id == id)
+  if(!note) return response.status(404).json({Error: `No note found with ${id}`})
+  return response.status(200).json(note)
 });
 
 //wait to pass this when current card is generated
 app.post("/api/notes/", (request, response) => {
-
   const { notes } = app.locals;
   const { title, list } = request.body;
 
-  if (!title || !list)
-    return response
-      .status(422)
-      .send("Expected format: { title: <String>, list: <Stringarray> }");
+  if (!title || !list) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`});
 
   const newlist = {
     id: ids.generate(),
-    ...request.body
+    title,
+    list
   };
 
   notes.push(newlist);
   return response.status(201).json(newlist);
 });
 
-app.put("/api/notes", (reequest, response) => {
-  const { title, items } = reequest.body;
-  let { id } = reequest.params;
-  id = parseInt(id);
-  let noteWasFound = false;
-  const newNote = app.locals.notes.map(note => {
-    if (note.id === id) {
-      noteWasFound = true;
-      return { id, title, items };
-    } else {
-      return note;
-    }
-  });
+app.put("/api/notes/:id", (request, response) => {
+  const { title, list } = request.body;
+  let { id } = request.params;
+  const { notes } = app.locals
+  
+console.log(request.params)
+console.log(title, list)
+ const foundNote =  notes.find(note => note.id == id)
 
-  if (!title || !items)
-    return response.status(422).json("Please provide a title and at least one item");
-  if (!noteWasFound) return res.status(404).json("Note not found");
-
-  app.locals.notes = newNotes;
-  return response.sendStatus(204);
+ if(!foundNote) return response.status(404).json({Error: `No note found with ${id} `})
+  if(!title || !list ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
+ 
+  foundNote.title = title
+  foundNote.list = list
+  return response.sendStatus(204).json(notes)
 });
 
 const sendMessage = (response, code, message) => {
