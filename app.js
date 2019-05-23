@@ -5,28 +5,10 @@ import cors from 'cors';
 app.use(cors());
 const ids = require('shortid')
 
-// ids.generate();  // "aeaf15"
-
 app.use(express.json())
 
-app.locals.notes = [
-  { id: ids.generate(),
-    title: 'Project To-do',
-    list: [
-      { id: ids.generate(),
-        text: 'Delete Card',
-      },
-      { id: ids.generate(),
-        text: 'Delete List items',
-      },
-      { id: ids.generate(),
-        text: 'Setup Router',
-      },
-      { id: ids.generate(),
-        text: 'Setup Redux',
-      },
-    ]
-  }]
+app.locals.notes = []
+
 
 
 
@@ -44,18 +26,19 @@ const note = app.locals.notes.forEach(note => {
 })
 
 //wait to pass this when current card is generated
-app.post('/api/notes/:id', (request, response) => {
-  const { list , title } = request.body
-  const id = ids.generate()
-
+app.post('/api/notes/', (request, response) => {
+  const { notes } = app.locals
+  const { title, list } = request.body
+  
+  if( !title || !list ) return response.status(422).send('Expected format: { title: <String>, list: <Stringarray> }')
+        
   const newlist = {
-    title,
-    id,
-    list
-  }
-  app.locals.notes = [...app.locals.notes, newlist]
+          id: ids.generate(),
+          ...request.body
+        }
 
-  return response.status(201).json('Note Created')
+    notes.push(newlist) 
+    return response.status(201).json(newlist)
 })
 
 app.put('/api/notes', (req, res) => {
