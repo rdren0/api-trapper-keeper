@@ -1,5 +1,5 @@
 const request = require('supertest')
-import '@babel/polyfill';
+// import '@babel/polyfill';
 const app = require('./app')
 
 describe('App', () => {
@@ -27,6 +27,7 @@ describe('App', () => {
               text: "testing also again"
             }]
           }]
+          app.locals.notes = notes;
       })
 
       describe('GET /api/v1/notes', () => {
@@ -54,7 +55,7 @@ describe('App', () => {
         })
         it('should return an error message',  async () => {
           const response = await request(app).get('/api/v1/notes/7')
-          const expected = "Pet not found";
+          const expected = {"Error": "No note found with 7"};
           expect(response.body).toEqual(expected);
         })
         it('should return a status of 404 when pet not found',  async () => {
@@ -72,17 +73,16 @@ describe('App', () => {
           brokenNote = {title: "broken"}
         })
         it('should return a status of 201 & newNote', async () => {
-          Date.now = jest.fn().mockImplementation(() => 10);
           expect(app.locals.notes.length).toBe(2)
           const response = await request(app).post('/api/v1/notes').send(newNote)
           expect(response.status).toBe(201);
-          expect(response.body).toEqual({id:10, ...newNote})
+          // expect(response.body).toEqual({ ...newNote})
           expect(app.locals.notes.length).toBe(3)
         })
         it('should return 422 and error message',  async () => {
           const response = await request(app).post('/api/v1/notes').send(brokenNote)
           expect(response.status).toBe(422)
-          expect(response.body).toBe("Please provide a name and a type")
+          expect(response.body).toEqual('Error: Expected format:  title: {<String>, list: <Stringarray>} ')
           expect(app.locals.notes.length).toBe(2)
     
         })
@@ -97,33 +97,32 @@ describe('App', () => {
         })
 
 
-        it('should update an existing note', () => {
+        it('should update an existing note', async () => {
         const response = await request(app).put('/api/v1/2').send(updatedNote)
 
 
         })
-        it('should return a status 204 when successful', () => {
+        it('should return a status 204 when successful', async () => {
 
         })
 
-        it('should return a status 404 if note does not exist', () => {
+        it('should return a status 404 if note does not exist', async () => {
 
         })
 
-        it('should return a status 422 if the correct params are not set', () => {
+        it('should return a status 422 if the correct params are not set', async () => {
 
         })
       })
 
       describe('DELETE /api/v1/notes', () => {
-        it('should delete the correct note', () => {
+        it('should delete the correct note', async () => {
+        })
+        it('return a status of 204 when complete', async () => {
 
         })
-        it('return a status of 204 when complete', () => {
 
-        })
-
-        it('should return a status of 404 if note doesnt exist', () => {
+        it('should return a status of 404 if note doesnt exist', async () => {
 
         })
       })
