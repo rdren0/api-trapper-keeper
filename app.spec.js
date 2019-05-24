@@ -82,7 +82,7 @@ describe('App', () => {
         it('should return 422 and error message',  async () => {
           const response = await request(app).post('/api/v1/notes').send(brokenNote)
           expect(response.status).toBe(422)
-          expect(response.body).toEqual('Error: Expected format:  title: {<String>, list: <Stringarray>} ')
+          expect(response.body).toEqual({"Error": "Must have a title and list items"})
           expect(app.locals.notes.length).toBe(2)
     
         })

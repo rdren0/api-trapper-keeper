@@ -85,7 +85,7 @@ app.post("/api/v1/notes/", (request, response) => {
   const { notes } = app.locals;
   const { title, list } = request.body;
 
-  if (!title || !list) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`});
+  if (!title || !list) return response.status(422).json({Error: 'Must have a title and list items'});
 
   const newlist = {
     id: ids.generate(),
