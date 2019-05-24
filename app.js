@@ -8,7 +8,7 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = []
+app.locals.notes = [
   {
     id: ids.generate(),
     title: "TODO",
