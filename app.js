@@ -8,7 +8,7 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [
+app.locals.notes = []
   {
     id: ids.generate(),
     title: "TODO",
@@ -126,4 +126,4 @@ app.delete("/api/v1/notes/:id", (request, response) => {
 
 });
 
-export default app;
+module.exports = app
