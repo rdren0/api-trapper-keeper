@@ -8,6 +8,13 @@
     "lint": "eslint src/",
     "test": "jest --watch"
   },
+  "devDependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,12 +23,5 @@
     "esm": "^3.2.25",
     "express": "^4.17.0",
     "shortid": "^2.2.14"
-  },
-  "devDependencies": {
-    "@babel/polyfill": "^7.4.4",
-    "babel-jest": "^24.8.0",
-    "jest": "^24.8.0",
-    "nodemon": "^1.19.0",
-    "supertest": "^4.0.2"
   }
 }
