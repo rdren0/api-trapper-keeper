@@ -68,6 +68,7 @@ app.locals.notes = [
 
 app.get("/api/v1/notes", (request, response) => {
   const notes = app.locals.notes;
+  console.log('get', notes)
   return response.status(200).json(notes);
 });
 
@@ -94,6 +95,7 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
+  console.log('post', notes)
   return response.status(201).json(newlist);
 });
 
