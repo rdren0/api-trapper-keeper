@@ -7,68 +7,11 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [
-  // {
-  //   id: ids.generate(),
-  //   title: "TODO",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Chores",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Turing",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Work",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // }
-];
+app.locals.notes = [];
 
 app.get("/api/v1/notes", (request, response) => {
   const notes = app.locals.notes;
-  console.log('get', notes)
+
   return response.status(200).json(notes);
 });
 
@@ -86,7 +29,7 @@ app.post("/api/v1/notes/", (request, response) => {
   const { notes } = app.locals;
   const { title, list } = request.body;
 
-  if (!title || !list) return response.status(422).json({Error: 'Must have a title and list items'});
+  if (!title || !list) return response.status(422).json('Expected format: { title: <String>, list: <Stringarray> }');
 
   const newlist = {
     id: ids.generate(),
@@ -95,7 +38,7 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
-  console.log('post', notes)
+ 
   return response.status(201).json(newlist);
 });
 
