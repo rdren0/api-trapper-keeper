@@ -1,4 +1,4 @@
-# Trapper Keeper
+# Trapper Keeper Back-End
 By: 
 * Michael King-Stockton https://github.com/KStockton, 
 * Matthew Kaplan https://github.com/MatthewKaplan, 
