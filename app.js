@@ -24,7 +24,6 @@ app.get("/api/v1/notes/:id", (request, response) => {
   return response.status(200).json(note)
 });
 
-//wait to pass this when current card is generated
 app.post("/api/v1/notes/", (request, response) => {
   const { notes } = app.locals;
   const { title, list } = request.body;
@@ -38,22 +37,23 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
- 
+
   return response.status(201).json(newlist);
 });
 
 app.put("/api/v1/notes/:id", (request, response) => {
-  const { title, list } = request.body;
+
+  const { title, notes } = request.body;
+
   let { id } = request.params;
-  const { notes } = app.locals
-  const foundNote =  notes.find(note => note.id == id)
+  const foundNote =  app.locals.notes.find(note => note.id == id)
 
  if(!foundNote) return response.status(404).json({Error: `No note found with ${id} `})
-  if(!title || !list ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
+  if(!title || !notes ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
  
   foundNote.title = title
-  foundNote.list = list
-  return response.sendStatus(204).json(notes)
+  foundNote.notes = notes
+  return response.sendStatus(204).json(notes)  
 });
 
 app.delete("/api/v1/notes/:id", (request, response) => {
