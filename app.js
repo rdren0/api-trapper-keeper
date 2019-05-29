@@ -24,12 +24,11 @@ app.get("/api/v1/notes/:id", (request, response) => {
   return response.status(200).json(note)
 });
 
-//wait to pass this when current card is generated
 app.post("/api/v1/notes/", (request, response) => {
   const { notes } = app.locals;
   const { title, list } = request.body;
 
-  if (!title || !list) return response.status(422).json({Error: 'Must have a title and list items'});
+  if (!title || !list) return response.status(422).json('Expected format: { title: <String>, list: <Stringarray> }');
 
   const newlist = {
     id: ids.generate(),
@@ -38,6 +37,7 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
+
   return response.status(201).json(newlist);
 });
 
