@@ -1,92 +1,38 @@
 const express = require("express");
 const app = express();
-const cors = require('cors')
+const cors = require("cors");
 app.use(cors());
 const ids = require("shortid");
 app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [
-  // {
-  //   id: ids.generate(),
-  //   title: "TODO",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Chores",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Turing",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Work",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // }
-];
+app.locals.notes = [];
 
 app.get("/api/v1/notes", (request, response) => {
   const notes = app.locals.notes;
-  console.log('get', notes)
+  console.log(notes);
   return response.status(200).json(notes);
 });
 
 app.get("/api/v1/notes/:id", (request, response) => {
-  const { id } = request.params
+  const { id } = request.params;
   const notes = app.locals.notes;
 
-  const note = notes.find(note => note.id == id)
-  if(!note) return response.status(404).json({Error: `No note found with ${id}`})
-  return response.status(200).json(note)
+  const note = notes.find(note => note.id == id);
+  if (!note)
+    return response.status(404).json({ Error: `No note found with ${id}` });
+  return response.status(200).json(note);
 });
 
-//wait to pass this when current card is generated
 app.post("/api/v1/notes/", (request, response) => {
   const { notes } = app.locals;
   const { title, list } = request.body;
 
-  if (!title || !list) return response.status(422).json({Error: 'Must have a title and list items'});
+  if (!title || !list)
+    return response
+      .status(422)
+      .json({ Error: "Must have a title and list items" });
 
   const newlist = {
     id: ids.generate(),
@@ -95,36 +41,40 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
-  console.log('post', notes)
   return response.status(201).json(newlist);
 });
 
 app.put("/api/v1/notes/:id", (request, response) => {
   const { title, list } = request.body;
   let { id } = request.params;
-  const { notes } = app.locals
-  const foundNote =  notes.find(note => note.id == id)
+  const { notes } = app.locals;
+  const foundNote = notes.find(note => note.id == id);
 
- if(!foundNote) return response.status(404).json({Error: `No note found with ${id} `})
-  if(!title || !list ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
- 
-  foundNote.title = title
-  foundNote.list = list
-  return response.sendStatus(204).json(notes)
+  if (!foundNote)
+    return response.status(404).json({ Error: `No note found with ${id} ` });
+  if (!title || !list)
+    return response
+      .status(422)
+      .json({
+        Error: `Expected format: { title: <String>, list: <Stringarray> }`
+      });
+
+  foundNote.title = title;
+  foundNote.list = list;
+  return response.sendStatus(204).json(notes);
 });
 
 app.delete("/api/v1/notes/:id", (request, response) => {
-
-  const { notes } = app.locals
-  const { id } = request.params
+  const { notes } = app.locals;
+  const { id } = request.params;
 
   const noteIndex = notes.findIndex(note => note.id == id);
- 
-  if(noteIndex === -1) return response.status(404).json({Error: `No note found with ${id}`});
+
+  if (noteIndex === -1)
+    return response.status(404).json({ Error: `No note found with ${id}` });
 
   notes.splice(noteIndex, 1);
   return response.sendStatus(200).json("Note was successfully deleted");
-
 });
 
-module.exports = app
+module.exports = app;
