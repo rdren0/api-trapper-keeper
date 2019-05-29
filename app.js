@@ -7,68 +7,11 @@ app.set("port", process.env.PORT || 3000);
 
 app.use(express.json());
 
-app.locals.notes = [
-  // {
-  //   id: ids.generate(),
-  //   title: "TODO",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Chores",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Turing",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // },
-  // {
-  //   id: ids.generate(),
-  //   title: "Work",
-  //   tasks: [
-  //     {
-  //       id: ids.generate(),
-  //       message: "Project"
-  //     },
-  //     {
-  //       id: ids.generate(),
-  //       message: "Mock Interview"
-  //     }
-  //   ]
-  // }
-];
+app.locals.notes = [];
 
 app.get("/api/v1/notes", (request, response) => {
   const notes = app.locals.notes;
-  console.log('get', notes)
+
   return response.status(200).json(notes);
 });
 
@@ -95,22 +38,22 @@ app.post("/api/v1/notes/", (request, response) => {
   };
 
   notes.push(newlist);
-  console.log('post', notes)
   return response.status(201).json(newlist);
 });
 
 app.put("/api/v1/notes/:id", (request, response) => {
-  const { title, list } = request.body;
+
+  const { title, notes } = request.body;
+
   let { id } = request.params;
-  const { notes } = app.locals
-  const foundNote =  notes.find(note => note.id == id)
+  const foundNote =  app.locals.notes.find(note => note.id == id)
 
  if(!foundNote) return response.status(404).json({Error: `No note found with ${id} `})
-  if(!title || !list ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
+  if(!title || !notes ) return response.status(422).json({Error: `Expected format: { title: <String>, list: <Stringarray> }`})
  
   foundNote.title = title
-  foundNote.list = list
-  return response.sendStatus(204).json(notes)
+  foundNote.notes = notes
+  return response.sendStatus(204).json(notes)  
 });
 
 app.delete("/api/v1/notes/:id", (request, response) => {
